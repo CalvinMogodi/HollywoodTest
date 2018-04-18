@@ -1,0 +1,58 @@
+﻿@model IEnumerable<HollywoodTest.Shared.Models.Tournament>
+
+@{
+    ViewBag.Title = "Tournaments";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Tournaments</h2>
+<p>@if (User.IsInRole("SysAdmin"))
+        {
+
+            <a href="@Url.Action("Create", "Tournaments")">
+                <span data-toggle="tooltip" data-placement="top" title="Create New Tournament" class="glyphicon glyphicon-plus-sign create-new" aria-hidden="true"></span>
+            </a>
+        }
+   
+</p>
+<table class="table">
+    <tr>
+        <th>
+            Tournament Name
+        </th>
+        <th> Events</th>
+        @if (User.IsInRole("SysAdmin"))
+        {
+        <th colspan="2"> Actions</th>
+        }
+    </tr>
+
+    @foreach (var item in Model)
+    {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.TournamentName)
+        </td>
+        <td>
+            @Html.ActionLink("View Events", "Index", "Events", new { tournamentID = item.TournamentID , tournaments = Model }, htmlAttributes: null)
+        </td>
+        @if (User.IsInRole("SysAdmin"))
+        {
+
+            <td>
+                <a href="@Url.Action("Edit", "Tournaments", new { TournamentID = item.TournamentID , TournamentName = item.TournamentName})">
+                    <span data-toggle="tooltip" data-placement="top" title="Edit Tournament" class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+                </a>
+            </td>
+            <td>              
+                
+                <a href="@Url.Action("Delete", "Tournaments", new { id = item.TournamentID })"  onclick = "return confirm('Are you sure you want to delete this tournament?');" >
+                    <span data-toggle="tooltip" data-placement="top" title="Delete Tournament" class="glyphicon glyphicon-trash red" aria-hidden="true"></span>
+                </a>
+            </td>
+        }
+
+    </tr>
+    }
+
+</table>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="cf63f9d8a507443a8270e9da63f240bf" Name="Diagram1">
+        <EntityTypeShape EntityType="HollywoodTestModel.tbErrorLog" Width="1.5" PointX="5.75" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="HollywoodTestModel.tbEvent" Width="1.5" PointX="3" PointY="1.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="HollywoodTestModel.tbEventDetail" Width="1.5" PointX="5.25" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="HollywoodTestModel.tbEventDetailStatu" Width="1.5" PointX="3" PointY="5.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="HollywoodTestModel.tbTournament" Width="1.5" PointX="0.75" PointY="1.625" IsExpanded="true" />
+        <AssociationConnector Association="HollywoodTestModel.FK_Event_Tournament" ManuallyRouted="false" />
+        <AssociationConnector Association="HollywoodTestModel.FK_EventDetail_Event1" ManuallyRouted="false" />
+        <AssociationConnector Association="HollywoodTestModel.FK_EventDetail_EventDetailStatus" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

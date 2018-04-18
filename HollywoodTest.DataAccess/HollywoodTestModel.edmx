@@ -1,0 +1,593 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="HollywoodTestModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="tbErrorLog">
+          <Key>
+            <PropertyRef Name="ErrorLogID" />
+          </Key>
+          <Property Name="ErrorLogID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ErrorMessage" Type="nvarchar(max)" />
+          <Property Name="Source" Type="nvarchar(max)" />
+          <Property Name="Date" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tbEvent">
+          <Key>
+            <PropertyRef Name="EventID" />
+          </Key>
+          <Property Name="EventID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FK_TournamentID" Type="bigint" Nullable="false" />
+          <Property Name="EventName" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="EventNumber" Type="smallint" Nullable="false" />
+          <Property Name="EventDateTime" Type="datetime" Nullable="false" />
+          <Property Name="EventEndDateTime" Type="datetime" Nullable="false" />
+          <Property Name="AutoClose" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tbEventDetail">
+          <Key>
+            <PropertyRef Name="EventDetailID" />
+          </Key>
+          <Property Name="EventDetailID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FK_EventID" Type="bigint" Nullable="false" />
+          <Property Name="FK_EventDetailStatusID" Type="bigint" Nullable="false" />
+          <Property Name="EventDetailName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="EventDetailNumber" Type="smallint" Nullable="false" />
+          <Property Name="EventDetailsOdd" Type="decimal" Precision="18" Scale="7" Nullable="false" />
+          <Property Name="FinishingPosition" Type="smallint" Nullable="false" />
+          <Property Name="FirstTimer" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tbEventDetailStatus">
+          <Key>
+            <PropertyRef Name="EventDetailStatusID" />
+          </Key>
+          <Property Name="EventDetailStatusID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="EventDetailStatusName" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tbTournament">
+          <Key>
+            <PropertyRef Name="TournamentID" />
+          </Key>
+          <Property Name="TournamentID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TournamentName" Type="varchar" MaxLength="200" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Event_Tournament">
+          <End Role="tbTournament" Type="Self.tbTournament" Multiplicity="1" />
+          <End Role="tbEvent" Type="Self.tbEvent" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbTournament">
+              <PropertyRef Name="TournamentID" />
+            </Principal>
+            <Dependent Role="tbEvent">
+              <PropertyRef Name="FK_TournamentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EventDetail_Event1">
+          <End Role="tbEvent" Type="Self.tbEvent" Multiplicity="1" />
+          <End Role="tbEventDetail" Type="Self.tbEventDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbEvent">
+              <PropertyRef Name="EventID" />
+            </Principal>
+            <Dependent Role="tbEventDetail">
+              <PropertyRef Name="FK_EventID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EventDetail_EventDetailStatus">
+          <End Role="tbEventDetailStatus" Type="Self.tbEventDetailStatus" Multiplicity="1" />
+          <End Role="tbEventDetail" Type="Self.tbEventDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbEventDetailStatus">
+              <PropertyRef Name="EventDetailStatusID" />
+            </Principal>
+            <Dependent Role="tbEventDetail">
+              <PropertyRef Name="FK_EventDetailStatusID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="prtbErrorLog_Insert" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ErrorMessage" Type="nvarchar(max)" Mode="In" />
+          <Parameter Name="Source" Type="nvarchar(max)" Mode="In" />
+          <Parameter Name="Date" Type="datetime" Mode="In" />
+        </Function>
+        <Function Name="prtbEvent_Delete" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="EventID" Type="bigint" Mode="In" />
+        </Function>
+        <Function Name="prtbEvent_GetAllActiveEvent" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="prtbEvent_GetByTournamentID" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="TournamentID" Type="bigint" Mode="In" />
+        </Function>
+        <Function Name="prtbEvent_GetOne" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="EventID" Type="bigint" Mode="In" />
+        </Function>
+        <Function Name="prtbEvent_Insert" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="FK_TournamentID" Type="bigint" Mode="In" />
+          <Parameter Name="EventName" Type="varchar" Mode="In" />
+          <Parameter Name="EventNumber" Type="smallint" Mode="In" />
+          <Parameter Name="EventDateTime" Type="datetime" Mode="In" />
+          <Parameter Name="EventEndDateTime" Type="datetime" Mode="In" />
+          <Parameter Name="AutoClose" Type="bit" Mode="In" />
+        </Function>
+        <Function Name="prtbEvent_Update" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="EventID" Type="bigint" Mode="In" />
+          <Parameter Name="FK_TournamentID" Type="bigint" Mode="In" />
+          <Parameter Name="EventName" Type="varchar" Mode="In" />
+          <Parameter Name="EventNumber" Type="smallint" Mode="In" />
+          <Parameter Name="EventDateTime" Type="datetime" Mode="In" />
+          <Parameter Name="EventEndDateTime" Type="datetime" Mode="In" />
+          <Parameter Name="AutoClose" Type="bit" Mode="In" />
+        </Function>
+        <Function Name="prtbEventDetail_Delete" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="EventDetailID" Type="bigint" Mode="In" />
+        </Function>
+        <Function Name="prtbEventDetail_GetByEventID" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="EventID" Type="bigint" Mode="In" />
+        </Function>
+        <Function Name="prtbEventDetail_GetOne" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="EventDetailID" Type="bigint" Mode="In" />
+        </Function>
+        <Function Name="prtbEventDetail_Insert" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="FK_EventID" Type="bigint" Mode="In" />
+          <Parameter Name="FK_EventDetailStatusID" Type="bigint" Mode="In" />
+          <Parameter Name="EventDetailName" Type="varchar" Mode="In" />
+          <Parameter Name="EventDetailNumber" Type="smallint" Mode="In" />
+          <Parameter Name="EventDetailsOdd" Type="decimal" Mode="In" />
+          <Parameter Name="FinishingPosition" Type="smallint" Mode="In" />
+          <Parameter Name="FirstTimer" Type="bit" Mode="In" />
+        </Function>
+        <Function Name="prtbEventDetail_Update" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="EventDetailID" Type="bigint" Mode="In" />
+          <Parameter Name="FK_EventID" Type="bigint" Mode="In" />
+          <Parameter Name="FK_EventDetailStatusID" Type="bigint" Mode="In" />
+          <Parameter Name="EventDetailName" Type="varchar" Mode="In" />
+          <Parameter Name="EventDetailNumber" Type="smallint" Mode="In" />
+          <Parameter Name="EventDetailsOdd" Type="decimal" Mode="In" />
+          <Parameter Name="FinishingPosition" Type="smallint" Mode="In" />
+          <Parameter Name="FirstTimer" Type="bit" Mode="In" />
+        </Function>
+        <Function Name="prtbTournament_Delete" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="TournamentID" Type="bigint" Mode="In" />
+        </Function>
+        <Function Name="prtbTournament_GetAll" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="prtbTournament_Insert" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="TournamentName" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="prtbTournament_Update" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="TournamentID" Type="bigint" Mode="In" />
+          <Parameter Name="TournamentName" Type="varchar" Mode="In" />
+        </Function>
+        <EntityContainer Name="HollywoodTestModelStoreContainer">
+          <EntitySet Name="tbErrorLog" EntityType="Self.tbErrorLog" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbEvent" EntityType="Self.tbEvent" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbEventDetail" EntityType="Self.tbEventDetail" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbEventDetailStatus" EntityType="Self.tbEventDetailStatus" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbTournament" EntityType="Self.tbTournament" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Event_Tournament" Association="Self.FK_Event_Tournament">
+            <End Role="tbTournament" EntitySet="tbTournament" />
+            <End Role="tbEvent" EntitySet="tbEvent" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EventDetail_Event1" Association="Self.FK_EventDetail_Event1">
+            <End Role="tbEvent" EntitySet="tbEvent" />
+            <End Role="tbEventDetail" EntitySet="tbEventDetail" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EventDetail_EventDetailStatus" Association="Self.FK_EventDetail_EventDetailStatus">
+            <End Role="tbEventDetailStatus" EntitySet="tbEventDetailStatus" />
+            <End Role="tbEventDetail" EntitySet="tbEventDetail" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="HollywoodTestModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="tbErrorLog">
+          <Key>
+            <PropertyRef Name="ErrorLogID" />
+          </Key>
+          <Property Name="ErrorLogID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ErrorMessage" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Source" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Date" Type="DateTime" Nullable="false" Precision="3" />
+        </EntityType>
+        <EntityType Name="tbEvent">
+          <Key>
+            <PropertyRef Name="EventID" />
+          </Key>
+          <Property Name="EventID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FK_TournamentID" Type="Int64" Nullable="false" />
+          <Property Name="EventName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="EventNumber" Type="Int16" Nullable="false" />
+          <Property Name="EventDateTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="EventEndDateTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="AutoClose" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="tbTournament" Relationship="Self.FK_Event_Tournament" FromRole="tbEvent" ToRole="tbTournament" />
+          <NavigationProperty Name="tbEventDetails" Relationship="Self.FK_EventDetail_Event1" FromRole="tbEvent" ToRole="tbEventDetail" />
+        </EntityType>
+        <EntityType Name="tbEventDetail">
+          <Key>
+            <PropertyRef Name="EventDetailID" />
+          </Key>
+          <Property Name="EventDetailID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FK_EventID" Type="Int64" Nullable="false" />
+          <Property Name="FK_EventDetailStatusID" Type="Int64" Nullable="false" />
+          <Property Name="EventDetailName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="EventDetailNumber" Type="Int16" Nullable="false" />
+          <Property Name="EventDetailsOdd" Type="Decimal" Precision="18" Scale="7" Nullable="false" />
+          <Property Name="FinishingPosition" Type="Int16" Nullable="false" />
+          <Property Name="FirstTimer" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="tbEvent" Relationship="Self.FK_EventDetail_Event1" FromRole="tbEventDetail" ToRole="tbEvent" />
+          <NavigationProperty Name="tbEventDetailStatu" Relationship="Self.FK_EventDetail_EventDetailStatus" FromRole="tbEventDetail" ToRole="tbEventDetailStatus" />
+        </EntityType>
+        <EntityType Name="tbEventDetailStatu">
+          <Key>
+            <PropertyRef Name="EventDetailStatusID" />
+          </Key>
+          <Property Name="EventDetailStatusID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="EventDetailStatusName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="tbEventDetails" Relationship="Self.FK_EventDetail_EventDetailStatus" FromRole="tbEventDetailStatus" ToRole="tbEventDetail" />
+        </EntityType>
+        <EntityType Name="tbTournament">
+          <Key>
+            <PropertyRef Name="TournamentID" />
+          </Key>
+          <Property Name="TournamentID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TournamentName" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="tbEvents" Relationship="Self.FK_Event_Tournament" FromRole="tbTournament" ToRole="tbEvent" />
+        </EntityType>
+        <Association Name="FK_Event_Tournament">
+          <End Role="tbTournament" Type="Self.tbTournament" Multiplicity="1" />
+          <End Role="tbEvent" Type="Self.tbEvent" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbTournament">
+              <PropertyRef Name="TournamentID" />
+            </Principal>
+            <Dependent Role="tbEvent">
+              <PropertyRef Name="FK_TournamentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EventDetail_Event1">
+          <End Role="tbEvent" Type="Self.tbEvent" Multiplicity="1" />
+          <End Role="tbEventDetail" Type="Self.tbEventDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbEvent">
+              <PropertyRef Name="EventID" />
+            </Principal>
+            <Dependent Role="tbEventDetail">
+              <PropertyRef Name="FK_EventID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EventDetail_EventDetailStatus">
+          <End Role="tbEventDetailStatus" Type="Self.tbEventDetailStatu" Multiplicity="1" />
+          <End Role="tbEventDetail" Type="Self.tbEventDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbEventDetailStatus">
+              <PropertyRef Name="EventDetailStatusID" />
+            </Principal>
+            <Dependent Role="tbEventDetail">
+              <PropertyRef Name="FK_EventDetailStatusID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="HollywoodTestEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="tbErrorLogs" EntityType="Self.tbErrorLog" />
+          <EntitySet Name="tbEvents" EntityType="Self.tbEvent" />
+          <EntitySet Name="tbEventDetails" EntityType="Self.tbEventDetail" />
+          <EntitySet Name="tbEventDetailStatus" EntityType="Self.tbEventDetailStatu" />
+          <EntitySet Name="tbTournaments" EntityType="Self.tbTournament" />
+          <AssociationSet Name="FK_Event_Tournament" Association="Self.FK_Event_Tournament">
+            <End Role="tbTournament" EntitySet="tbTournaments" />
+            <End Role="tbEvent" EntitySet="tbEvents" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EventDetail_Event1" Association="Self.FK_EventDetail_Event1">
+            <End Role="tbEvent" EntitySet="tbEvents" />
+            <End Role="tbEventDetail" EntitySet="tbEventDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EventDetail_EventDetailStatus" Association="Self.FK_EventDetail_EventDetailStatus">
+            <End Role="tbEventDetailStatus" EntitySet="tbEventDetailStatus" />
+            <End Role="tbEventDetail" EntitySet="tbEventDetails" />
+          </AssociationSet>
+          <FunctionImport Name="prtbErrorLog_Insert">
+            <Parameter Name="ErrorMessage" Mode="In" Type="String" />
+            <Parameter Name="Source" Mode="In" Type="String" />
+            <Parameter Name="Date" Mode="In" Type="DateTime" />
+          </FunctionImport>
+          <FunctionImport Name="prtbEvent_Delete">
+            <Parameter Name="EventID" Mode="In" Type="Int64" />
+          </FunctionImport>
+          <FunctionImport Name="prtbEvent_GetAllActiveEvent" ReturnType="Collection(HollywoodTestModel.prtbEvent_GetAllActiveEvent_Result)" />
+          <FunctionImport Name="prtbEvent_GetByTournamentID" ReturnType="Collection(HollywoodTestModel.prtbEvent_GetByTournamentID_Result)">
+            <Parameter Name="TournamentID" Mode="In" Type="Int64" />
+          </FunctionImport>
+          <FunctionImport Name="prtbEvent_GetOne" ReturnType="Collection(HollywoodTestModel.prtbEvent_GetOne_Result)">
+            <Parameter Name="EventID" Mode="In" Type="Int64" />
+          </FunctionImport>
+          <FunctionImport Name="prtbEvent_Insert" ReturnType="Collection(Int32)">
+            <Parameter Name="FK_TournamentID" Mode="In" Type="Int64" />
+            <Parameter Name="EventName" Mode="In" Type="String" />
+            <Parameter Name="EventNumber" Mode="In" Type="Int16" />
+            <Parameter Name="EventDateTime" Mode="In" Type="DateTime" />
+            <Parameter Name="EventEndDateTime" Mode="In" Type="DateTime" />
+            <Parameter Name="AutoClose" Mode="In" Type="Boolean" />
+          </FunctionImport>
+          <FunctionImport Name="prtbEvent_Update">
+            <Parameter Name="EventID" Mode="In" Type="Int64" />
+            <Parameter Name="FK_TournamentID" Mode="In" Type="Int64" />
+            <Parameter Name="EventName" Mode="In" Type="String" />
+            <Parameter Name="EventNumber" Mode="In" Type="Int16" />
+            <Parameter Name="EventDateTime" Mode="In" Type="DateTime" />
+            <Parameter Name="EventEndDateTime" Mode="In" Type="DateTime" />
+            <Parameter Name="AutoClose" Mode="In" Type="Boolean" />
+          </FunctionImport>
+          <FunctionImport Name="prtbEventDetail_Delete">
+            <Parameter Name="EventDetailID" Mode="In" Type="Int64" />
+          </FunctionImport>
+          <FunctionImport Name="prtbEventDetail_GetByEventID" ReturnType="Collection(HollywoodTestModel.prtbEventDetail_GetByEventID_Result)">
+            <Parameter Name="EventID" Mode="In" Type="Int64" />
+          </FunctionImport>
+          <FunctionImport Name="prtbEventDetail_GetOne" ReturnType="Collection(HollywoodTestModel.prtbEventDetail_GetOne_Result)">
+            <Parameter Name="EventDetailID" Mode="In" Type="Int64" />
+          </FunctionImport>
+          <FunctionImport Name="prtbEventDetail_Insert" ReturnType="Collection(Int32)">
+            <Parameter Name="FK_EventID" Mode="In" Type="Int64" />
+            <Parameter Name="FK_EventDetailStatusID" Mode="In" Type="Int64" />
+            <Parameter Name="EventDetailName" Mode="In" Type="String" />
+            <Parameter Name="EventDetailNumber" Mode="In" Type="Int16" />
+            <Parameter Name="EventDetailsOdd" Mode="In" Type="Decimal" />
+            <Parameter Name="FinishingPosition" Mode="In" Type="Int16" />
+            <Parameter Name="FirstTimer" Mode="In" Type="Boolean" />
+          </FunctionImport>
+          <FunctionImport Name="prtbEventDetail_Update">
+            <Parameter Name="EventDetailID" Mode="In" Type="Int64" />
+            <Parameter Name="FK_EventID" Mode="In" Type="Int64" />
+            <Parameter Name="FK_EventDetailStatusID" Mode="In" Type="Int64" />
+            <Parameter Name="EventDetailName" Mode="In" Type="String" />
+            <Parameter Name="EventDetailNumber" Mode="In" Type="Int16" />
+            <Parameter Name="EventDetailsOdd" Mode="In" Type="Decimal" />
+            <Parameter Name="FinishingPosition" Mode="In" Type="Int16" />
+            <Parameter Name="FirstTimer" Mode="In" Type="Boolean" />
+          </FunctionImport>
+          <FunctionImport Name="prtbTournament_Delete">
+            <Parameter Name="TournamentID" Mode="In" Type="Int64" />
+          </FunctionImport>
+          <FunctionImport Name="prtbTournament_GetAll" ReturnType="Collection(HollywoodTestModel.prtbTournament_GetAll_Result)" />
+          <FunctionImport Name="prtbTournament_Insert" ReturnType="Collection(Int32)">
+            <Parameter Name="TournamentName" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="prtbTournament_Update">
+            <Parameter Name="TournamentID" Mode="In" Type="Int64" />
+            <Parameter Name="TournamentName" Mode="In" Type="String" />
+          </FunctionImport>
+        </EntityContainer>
+        <ComplexType Name="prtbEvent_GetAllActiveEvent_Result">
+          <Property Type="Int64" Name="EventID" Nullable="false" />
+          <Property Type="Int64" Name="FK_TournamentID" Nullable="false" />
+          <Property Type="String" Name="TournamentName" Nullable="false" MaxLength="200" />
+          <Property Type="String" Name="EventName" Nullable="false" MaxLength="100" />
+          <Property Type="Int16" Name="EventNumber" Nullable="false" />
+          <Property Type="DateTime" Name="EventDateTime" Nullable="false" Precision="23" />
+          <Property Type="DateTime" Name="EventEndDateTime" Nullable="false" Precision="23" />
+          <Property Type="Boolean" Name="AutoClose" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="prtbEvent_GetByTournamentID_Result">
+          <Property Type="Int64" Name="EventID" Nullable="false" />
+          <Property Type="Int64" Name="TournamentID" Nullable="false" />
+          <Property Type="String" Name="TournamentName" Nullable="false" MaxLength="200" />
+          <Property Type="String" Name="EventName" Nullable="false" MaxLength="100" />
+          <Property Type="Int16" Name="EventNumber" Nullable="false" />
+          <Property Type="DateTime" Name="EventDateTime" Nullable="false" Precision="23" />
+          <Property Type="DateTime" Name="EventEndDateTime" Nullable="false" Precision="23" />
+          <Property Type="Boolean" Name="AutoClose" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="prtbEvent_GetOne_Result">
+          <Property Type="Int64" Name="EventID" Nullable="false" />
+          <Property Type="Int64" Name="FK_TournamentID" Nullable="false" />
+          <Property Type="String" Name="EventName" Nullable="false" MaxLength="100" />
+          <Property Type="Int16" Name="EventNumber" Nullable="false" />
+          <Property Type="DateTime" Name="EventDateTime" Nullable="false" Precision="23" />
+          <Property Type="DateTime" Name="EventEndDateTime" Nullable="false" Precision="23" />
+          <Property Type="Boolean" Name="AutoClose" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="prtbEventDetail_GetByEventID_Result">
+          <Property Type="Int64" Name="EventDetailID" Nullable="false" />
+          <Property Type="Int64" Name="EventID" Nullable="false" />
+          <Property Type="String" Name="EventName" Nullable="false" MaxLength="100" />
+          <Property Type="Int64" Name="EventDetailStatusID" Nullable="false" />
+          <Property Type="String" Name="EventDetailStatusName" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="EventDetailName" Nullable="false" MaxLength="50" />
+          <Property Type="Int16" Name="EventDetailNumber" Nullable="false" />
+          <Property Type="Decimal" Name="EventDetailsOdd" Nullable="false" Precision="18" Scale="7" />
+          <Property Type="Int16" Name="FinishingPosition" Nullable="false" />
+          <Property Type="Boolean" Name="FirstTimer" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="prtbEventDetail_GetOne_Result">
+          <Property Type="Int64" Name="EventDetailID" Nullable="false" />
+          <Property Type="Int64" Name="FK_EventID" Nullable="false" />
+          <Property Type="Int64" Name="FK_EventDetailStatusID" Nullable="false" />
+          <Property Type="String" Name="EventDetailName" Nullable="false" MaxLength="50" />
+          <Property Type="Int16" Name="EventDetailNumber" Nullable="false" />
+          <Property Type="Decimal" Name="EventDetailsOdd" Nullable="false" Precision="18" Scale="7" />
+          <Property Type="Int16" Name="FinishingPosition" Nullable="false" />
+          <Property Type="Boolean" Name="FirstTimer" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="prtbTournament_GetAll_Result">
+          <Property Type="Int64" Name="TournamentID" Nullable="false" />
+          <Property Type="String" Name="TournamentName" Nullable="false" MaxLength="200" />
+        </ComplexType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="HollywoodTestModelStoreContainer" CdmEntityContainer="HollywoodTestEntities">
+          <EntitySetMapping Name="tbErrorLogs">
+            <EntityTypeMapping TypeName="HollywoodTestModel.tbErrorLog">
+              <MappingFragment StoreEntitySet="tbErrorLog">
+                <ScalarProperty Name="ErrorLogID" ColumnName="ErrorLogID" />
+                <ScalarProperty Name="ErrorMessage" ColumnName="ErrorMessage" />
+                <ScalarProperty Name="Source" ColumnName="Source" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbEvents">
+            <EntityTypeMapping TypeName="HollywoodTestModel.tbEvent">
+              <MappingFragment StoreEntitySet="tbEvent">
+                <ScalarProperty Name="EventID" ColumnName="EventID" />
+                <ScalarProperty Name="FK_TournamentID" ColumnName="FK_TournamentID" />
+                <ScalarProperty Name="EventName" ColumnName="EventName" />
+                <ScalarProperty Name="EventNumber" ColumnName="EventNumber" />
+                <ScalarProperty Name="EventDateTime" ColumnName="EventDateTime" />
+                <ScalarProperty Name="EventEndDateTime" ColumnName="EventEndDateTime" />
+                <ScalarProperty Name="AutoClose" ColumnName="AutoClose" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbEventDetails">
+            <EntityTypeMapping TypeName="HollywoodTestModel.tbEventDetail">
+              <MappingFragment StoreEntitySet="tbEventDetail">
+                <ScalarProperty Name="EventDetailID" ColumnName="EventDetailID" />
+                <ScalarProperty Name="FK_EventID" ColumnName="FK_EventID" />
+                <ScalarProperty Name="FK_EventDetailStatusID" ColumnName="FK_EventDetailStatusID" />
+                <ScalarProperty Name="EventDetailName" ColumnName="EventDetailName" />
+                <ScalarProperty Name="EventDetailNumber" ColumnName="EventDetailNumber" />
+                <ScalarProperty Name="EventDetailsOdd" ColumnName="EventDetailsOdd" />
+                <ScalarProperty Name="FinishingPosition" ColumnName="FinishingPosition" />
+                <ScalarProperty Name="FirstTimer" ColumnName="FirstTimer" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbEventDetailStatus">
+            <EntityTypeMapping TypeName="HollywoodTestModel.tbEventDetailStatu">
+              <MappingFragment StoreEntitySet="tbEventDetailStatus">
+                <ScalarProperty Name="EventDetailStatusID" ColumnName="EventDetailStatusID" />
+                <ScalarProperty Name="EventDetailStatusName" ColumnName="EventDetailStatusName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbTournaments">
+            <EntityTypeMapping TypeName="HollywoodTestModel.tbTournament">
+              <MappingFragment StoreEntitySet="tbTournament">
+                <ScalarProperty Name="TournamentID" ColumnName="TournamentID" />
+                <ScalarProperty Name="TournamentName" ColumnName="TournamentName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="prtbErrorLog_Insert" FunctionName="HollywoodTestModel.Store.prtbErrorLog_Insert" />
+          <FunctionImportMapping FunctionImportName="prtbEvent_Delete" FunctionName="HollywoodTestModel.Store.prtbEvent_Delete" />
+          <FunctionImportMapping FunctionImportName="prtbEvent_GetAllActiveEvent" FunctionName="HollywoodTestModel.Store.prtbEvent_GetAllActiveEvent">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="HollywoodTestModel.prtbEvent_GetAllActiveEvent_Result">
+                <ScalarProperty Name="EventID" ColumnName="EventID" />
+                <ScalarProperty Name="FK_TournamentID" ColumnName="FK_TournamentID" />
+                <ScalarProperty Name="TournamentName" ColumnName="TournamentName" />
+                <ScalarProperty Name="EventName" ColumnName="EventName" />
+                <ScalarProperty Name="EventNumber" ColumnName="EventNumber" />
+                <ScalarProperty Name="EventDateTime" ColumnName="EventDateTime" />
+                <ScalarProperty Name="EventEndDateTime" ColumnName="EventEndDateTime" />
+                <ScalarProperty Name="AutoClose" ColumnName="AutoClose" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="prtbEvent_GetByTournamentID" FunctionName="HollywoodTestModel.Store.prtbEvent_GetByTournamentID">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="HollywoodTestModel.prtbEvent_GetByTournamentID_Result">
+                <ScalarProperty Name="EventID" ColumnName="EventID" />
+                <ScalarProperty Name="TournamentID" ColumnName="TournamentID" />
+                <ScalarProperty Name="TournamentName" ColumnName="TournamentName" />
+                <ScalarProperty Name="EventName" ColumnName="EventName" />
+                <ScalarProperty Name="EventNumber" ColumnName="EventNumber" />
+                <ScalarProperty Name="EventDateTime" ColumnName="EventDateTime" />
+                <ScalarProperty Name="EventEndDateTime" ColumnName="EventEndDateTime" />
+                <ScalarProperty Name="AutoClose" ColumnName="AutoClose" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="prtbEvent_GetOne" FunctionName="HollywoodTestModel.Store.prtbEvent_GetOne">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="HollywoodTestModel.prtbEvent_GetOne_Result">
+                <ScalarProperty Name="EventID" ColumnName="EventID" />
+                <ScalarProperty Name="FK_TournamentID" ColumnName="FK_TournamentID" />
+                <ScalarProperty Name="EventName" ColumnName="EventName" />
+                <ScalarProperty Name="EventNumber" ColumnName="EventNumber" />
+                <ScalarProperty Name="EventDateTime" ColumnName="EventDateTime" />
+                <ScalarProperty Name="EventEndDateTime" ColumnName="EventEndDateTime" />
+                <ScalarProperty Name="AutoClose" ColumnName="AutoClose" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="prtbEvent_Insert" FunctionName="HollywoodTestModel.Store.prtbEvent_Insert" />
+          <FunctionImportMapping FunctionImportName="prtbEvent_Update" FunctionName="HollywoodTestModel.Store.prtbEvent_Update" />
+          <FunctionImportMapping FunctionImportName="prtbEventDetail_Delete" FunctionName="HollywoodTestModel.Store.prtbEventDetail_Delete" />
+          <FunctionImportMapping FunctionImportName="prtbEventDetail_GetByEventID" FunctionName="HollywoodTestModel.Store.prtbEventDetail_GetByEventID">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="HollywoodTestModel.prtbEventDetail_GetByEventID_Result">
+                <ScalarProperty Name="EventDetailID" ColumnName="EventDetailID" />
+                <ScalarProperty Name="EventID" ColumnName="EventID" />
+                <ScalarProperty Name="EventName" ColumnName="EventName" />
+                <ScalarProperty Name="EventDetailStatusID" ColumnName="EventDetailStatusID" />
+                <ScalarProperty Name="EventDetailStatusName" ColumnName="EventDetailStatusName" />
+                <ScalarProperty Name="EventDetailName" ColumnName="EventDetailName" />
+                <ScalarProperty Name="EventDetailNumber" ColumnName="EventDetailNumber" />
+                <ScalarProperty Name="EventDetailsOdd" ColumnName="EventDetailsOdd" />
+                <ScalarProperty Name="FinishingPosition" ColumnName="FinishingPosition" />
+                <ScalarProperty Name="FirstTimer" ColumnName="FirstTimer" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="prtbEventDetail_GetOne" FunctionName="HollywoodTestModel.Store.prtbEventDetail_GetOne">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="HollywoodTestModel.prtbEventDetail_GetOne_Result">
+                <ScalarProperty Name="EventDetailID" ColumnName="EventDetailID" />
+                <ScalarProperty Name="FK_EventID" ColumnName="FK_EventID" />
+                <ScalarProperty Name="FK_EventDetailStatusID" ColumnName="FK_EventDetailStatusID" />
+                <ScalarProperty Name="EventDetailName" ColumnName="EventDetailName" />
+                <ScalarProperty Name="EventDetailNumber" ColumnName="EventDetailNumber" />
+                <ScalarProperty Name="EventDetailsOdd" ColumnName="EventDetailsOdd" />
+                <ScalarProperty Name="FinishingPosition" ColumnName="FinishingPosition" />
+                <ScalarProperty Name="FirstTimer" ColumnName="FirstTimer" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="prtbEventDetail_Insert" FunctionName="HollywoodTestModel.Store.prtbEventDetail_Insert" />
+          <FunctionImportMapping FunctionImportName="prtbEventDetail_Update" FunctionName="HollywoodTestModel.Store.prtbEventDetail_Update" />
+          <FunctionImportMapping FunctionImportName="prtbTournament_Delete" FunctionName="HollywoodTestModel.Store.prtbTournament_Delete" />
+          <FunctionImportMapping FunctionImportName="prtbTournament_GetAll" FunctionName="HollywoodTestModel.Store.prtbTournament_GetAll">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="HollywoodTestModel.prtbTournament_GetAll_Result">
+                <ScalarProperty Name="TournamentID" ColumnName="TournamentID" />
+                <ScalarProperty Name="TournamentName" ColumnName="TournamentName" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="prtbTournament_Insert" FunctionName="HollywoodTestModel.Store.prtbTournament_Insert" />
+          <FunctionImportMapping FunctionImportName="prtbTournament_Update" FunctionName="HollywoodTestModel.Store.prtbTournament_Update" />
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

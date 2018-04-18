@@ -1,0 +1,45 @@
+﻿@model IEnumerable<HollywoodTest.Shared.Models.Tournament>
+
+@{
+    ViewBag.Title = "Tournaments";
+}
+
+<h2>Tournaments</h2>
+
+<p>
+    <a href="@Url.Action("Create", "Tournaments")">
+        <span data-toggle="tooltip" data-placement="top" title="Create New Tournament" class="glyphicon glyphicon-plus-sign create-new" aria-hidden="true"></span>
+    </a>
+</p>
+<table class="table">
+    <tr>
+        <th>
+            Tournament Name
+        </th>
+        <th colspan="3"> Actions</th>
+       
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.TournamentName)
+        </td>
+
+        <td>
+            @Html.ActionLink("View Events", "Index", "Events", new { tournamentID = item.TournamentID }, htmlAttributes: null)
+        </td>
+        <td>
+            <a href="@Url.Action("Edit", "Tournaments", new { id = item.TournamentID })">
+                <span data-toggle="tooltip" data-placement="top" title="Edit Tournament" class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+            </a>
+        </td>
+        <td>
+            <a href="@Url.Action("Delete", "Tournaments", new { id = item.TournamentID })">
+                <span data-toggle="tooltip" data-placement="top" title="Delete Tournament" class="glyphicon glyphicon-trash red" aria-hidden="true"></span>
+            </a>
+        </td>
+    </tr>
+}
+
+</table>

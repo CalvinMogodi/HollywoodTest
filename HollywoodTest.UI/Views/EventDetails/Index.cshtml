@@ -1,0 +1,85 @@
+﻿@model IEnumerable<HollywoodTest.Shared.Models.EventDetail>
+
+@{
+    ViewBag.Title = "Event Detail";
+}
+
+<h2>Event Detail</h2>
+
+<p>
+    @if (User.IsInRole("SysAdmin"))
+    {
+        <a href="@Url.Action("Create", "EventDetails")">
+            <span data-toggle="tooltip" data-placement="top" title="Create New Tournament" class="glyphicon glyphicon-plus-sign create-new" aria-hidden="true"></span>
+        </a>
+    }
+    </p>
+<table class="table">
+    <tr>
+        <th>
+            Event Name
+        </th>
+        <th>
+            Event Detail Status
+        </th>
+        <th>
+            Event Detail Name
+        </th>
+        <th>
+            EventD etail Number
+        </th>
+        <th>
+            Event Details Odd
+        </th>
+        <th>
+            Finishing Position
+        </th>
+        <th>
+            First Timer
+        </th>
+        @if (User.IsInRole("SysAdmin"))
+        {
+        <th colspan="2">Action</th>
+        }
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Event.EventName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.EventDetailStatusID)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.EventDetailName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.EventDetailNumber)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.EventDetailsOdd)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.FinishingPosition)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.FirstTimer)
+        </td>
+        @if (User.IsInRole("SysAdmin"))
+        {
+        <td>
+            <a href="@Url.Action("Edit", "EventDetails", new { id = item.EventDetailID })">
+                <span data-toggle="tooltip" data-placement="top" title="Edit Tournament" class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+            </a>
+        </td>
+        <td>
+            <a href="@Url.Action("Delete", "EventDetails", new { id = item.EventDetailID })">
+                <span data-toggle="tooltip" data-placement="top" title="Delete Tournament" class="glyphicon glyphicon-trash red" aria-hidden="true"></span>
+            </a>
+        </td>
+        }
+    </tr>
+}
+
+</table>

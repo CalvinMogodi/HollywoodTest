@@ -1,0 +1,171 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{E8EE10C2-C828-43B4-A195-D85540CCCD78}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>HollywoodTest.DataAccess</RootNamespace>
+    <AssemblyName>HollywoodTest.DataAccess</AssemblyName>
+    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="HollywoodTestModel.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>HollywoodTestModel.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="HollywoodTestModel.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>HollywoodTestModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="HollywoodTestModel.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>HollywoodTestModel.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Interface\IErrorLogRepository.cs" />
+    <Compile Include="Interface\IEventDetailRepository.cs" />
+    <Compile Include="Interface\IEventRepository.cs" />
+    <Compile Include="Interface\ITournamentRepository.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="prtbEventDetail_GetByEventID_Result.cs">
+      <DependentUpon>HollywoodTestModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="prtbEventDetail_GetOne_Result.cs">
+      <DependentUpon>HollywoodTestModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="prtbEvent_GetAllActiveEvent_Result.cs">
+      <DependentUpon>HollywoodTestModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="prtbEvent_GetByTournamentID_Result.cs">
+      <DependentUpon>HollywoodTestModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="prtbEvent_GetOne_Result.cs">
+      <DependentUpon>HollywoodTestModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="prtbTournament_GetAll_Result.cs">
+      <DependentUpon>HollywoodTestModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Repository\ErrorLogRepository.cs" />
+    <Compile Include="Repository\EventDetailRepository.cs" />
+    <Compile Include="Repository\EventRepository.cs" />
+    <Compile Include="Repository\TournamentRepository.cs" />
+    <Compile Include="tbErrorLog.cs">
+      <DependentUpon>HollywoodTestModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbEvent.cs">
+      <DependentUpon>HollywoodTestModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbEventDetail.cs">
+      <DependentUpon>HollywoodTestModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbEventDetailStatu.cs">
+      <DependentUpon>HollywoodTestModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbTournament.cs">
+      <DependentUpon>HollywoodTestModel.tt</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.Config" />
+    <EntityDeploy Include="HollywoodTestModel.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>HollywoodTestModel.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <None Include="HollywoodTestModel.edmx.diagram">
+      <DependentUpon>HollywoodTestModel.edmx</DependentUpon>
+    </None>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\HollywoodTest.Shared\HollywoodTest.Shared.csproj">
+      <Project>{ffeae63e-7069-44bd-be9f-208929834e2b}</Project>
+      <Name>HollywoodTest.Shared</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.6.2">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4.6.2 %28x86 and x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="HollywoodTestModel.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>HollywoodTestModel.edmx</DependentUpon>
+      <LastGenOutput>HollywoodTestModel.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="HollywoodTestModel.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>HollywoodTestModel.edmx</DependentUpon>
+      <LastGenOutput>HollywoodTestModel.cs</LastGenOutput>
+    </Content>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>
